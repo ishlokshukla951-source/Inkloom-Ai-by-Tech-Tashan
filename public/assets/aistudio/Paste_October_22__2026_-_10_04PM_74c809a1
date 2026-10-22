@@ -1,0 +1,927 @@
+# MASTER PROMPT — INKLOOM AI
+## Production-Ready AI Brand Governance Platform
+
+Act as a senior full-stack software engineer, AI architect, SaaS product designer, UX/UI expert, database engineer, cybersecurity specialist, and deployment engineer.
+
+Build a complete, professional, responsive, functional full-stack web application named **Inkloom AI — Consistent Content. Confident Publishing.**
+
+Do not create only a landing page or static UI prototype. Build an integrated application with a working frontend, backend APIs, database, AI-powered content analysis, authentication, brand-guideline management, review and approval workflows, analytics, and deployment documentation.
+
+The website must be understandable to a first-time user, visually polished enough for a professional SaaS product, and suitable for a hackathon demonstration.
+
+---
+
+# 1. OFFICIAL PROBLEM STATEMENT AND OBJECTIVE
+
+Growing organisations publish content through multiple employees, agencies and AI tools, making it difficult to maintain a consistent and trustworthy brand identity.
+
+Incorrect claims, outdated information, inconsistent language and off-brand visuals can damage credibility before anyone notices the problem.
+
+Build an intelligent brand-governance platform that reviews content before publication and checks it against approved guidelines, facts and assets.
+
+The system must detect issues involving:
+
+- Brand tone and writing style
+- Approved terminology and prohibited phrases
+- Messaging consistency
+- Outdated or conflicting information
+- Visual consistency and available brand assets
+- Accessibility concerns
+- Unsupported promotional and factual claims
+
+Rather than simply rejecting content, the platform must explain each detected issue and recommend a correction that preserves the creator's original intention.
+
+Include a review and approval workflow through which creators, managers and authorised reviewers can collaborate and track changes.
+
+Support multiple content formats and provide insights into recurring mistakes and areas where brand guidelines are unclear.
+
+The solution must balance AI automation with human control while protecting confidential materials and delivering explainable results.
+
+**Core product promise:** Help organisations identify brand inconsistencies before publication, correct them efficiently, and maintain a consistent, trustworthy brand identity.
+
+---
+
+# 2. REQUIRED TECHNOLOGY STACK
+
+Use the following technology architecture as the primary implementation stack.
+
+## Frontend
+
+- Next.js 14 with App Router
+- React
+- TypeScript
+- Tailwind CSS
+- Reusable UI components
+- Lucide icons
+- Recharts for analytics
+- Responsive layouts for desktop, tablet and mobile
+
+Build a polished SaaS dashboard with clean navigation, readable typography, consistent spacing, smooth transitions and useful loading, empty, error and success states.
+
+## Backend API
+
+- Python
+- FastAPI
+- Pydantic for request validation
+- REST API architecture
+- Asynchronous operations where appropriate
+- Clear separation between API routes, business logic, database access and AI services
+
+Provide proper validation, meaningful error responses, API documentation and health-check endpoints.
+
+## Deterministic Rule Parser
+
+Build a custom Python rule engine using:
+
+- Python Abstract Syntax Tree (AST) where appropriate for structured rule configuration or validation logic
+- Regular expressions for deterministic text matching
+- Exact and case-insensitive terminology checks
+- Configurable prohibited phrases, required phrases, disclaimers and claim-related patterns
+- Rule severity and evidence tracking
+
+The AST must be used appropriately rather than pretending it is a natural-language parser. Use regex and structured rule definitions for content scanning.
+
+This engine should detect explicitly defined rules without needing an AI API call. Keep the deterministic rule engine separate from the semantic AI analysis service.
+
+## AI Semantic Analysis
+
+Use the Google Gemini API for semantic analysis, with a configurable model selection setting.
+
+Preferred configured model: `gemini-1.5-flash`, subject to actual API availability and account access.
+
+Implement the model through a backend service, not directly inside frontend components. Read the API key and model name from environment variables.
+
+Use AI for:
+
+- Understanding the context of content
+- Evaluating the brand's writing tone and messaging
+- Identifying potentially unsupported or misleading claims
+- Explaining why an issue matters
+- Suggesting contextual corrections
+- Evaluating meaning and consistency beyond exact keyword matching
+- Summarising review results and recurring mistakes
+
+Require schema-validated JSON responses from the AI service. Validate all output before showing it to users.
+
+If the configured model or API is unavailable, provide a clear, graceful error state and allow deterministic checks to continue where possible. Never display fabricated AI results as real analysis.
+
+## Database and Authentication
+
+Use Supabase with PostgreSQL, Supabase Auth and Row Level Security (RLS).
+
+Use relational tables for organisations, memberships, user profiles, brand guidelines, content documents, review results, individual issues, suggestions, approval records, comments, uploaded asset metadata and audit logs.
+
+All organisation-owned data must be isolated between organisations.
+
+Use migrations or SQL schema files to create the database structure and RLS policies. Do not rely on manually created, undocumented database tables.
+
+---
+
+# 3. PROFESSIONAL UI AND VISUAL IDENTITY
+
+Design Inkloom AI as a premium, trustworthy B2B SaaS platform.
+
+## Visual direction
+
+Use a light, elegant interface with:
+
+- Warm off-white or very light grey backgrounds
+- White content surfaces
+- Deep navy or charcoal typography
+- Royal blue or indigo as the primary accent
+- Muted teal for positive findings
+- Soft amber for warnings
+- Restrained red for serious issues
+- Subtle borders, soft shadows and medium rounded corners
+
+Use a modern font such as Inter.
+
+The interface should feel professional, calm, organised and technology-focused. Avoid excessive gradients, neon colours, large decorative animations, cluttered dashboards and generic AI-generated website styling.
+
+Use consistent spacing, clear visual hierarchy, well-labelled icons, readable charts and accessible colour contrast.
+
+Add subtle hover effects, short transitions, skeleton loading states, progress indicators and tasteful micro-interactions. Respect reduced-motion preferences.
+
+Do not let animations delay important user actions.
+
+## Brand identity
+
+Product name: Inkloom AI
+
+Tagline: Consistent Content. Confident Publishing.
+
+Supporting message: Review smarter. Protect your brand. Publish with confidence.
+
+Create a clean, text-based brand logo with a simple abstract mark suggesting content, consistency or interconnected ideas. Do not use unrelated stock branding.
+
+---
+
+# 4. REQUIRED PAGES
+
+Create all the following pages and connect them to real application functionality.
+
+## A. Landing Page
+
+Build a polished public homepage featuring:
+
+- Clear hero section explaining the product
+- Primary CTA: Get Started
+- Secondary CTA: Explore Demo
+- Problem and solution explanation
+- Three-step workflow: Define Brand → Review Content → Approve and Publish
+- Feature overview
+- Example content-review interface or original product mockup
+- Security and human-approval principles
+- Frequently asked questions
+- Professional footer with navigation and contact placeholders
+
+Avoid unsupported customer logos, fake testimonials, fictional client counts and invented performance claims.
+
+## B. Authentication
+
+Implement:
+
+- Sign up
+- Sign in
+- Sign out
+- Password reset
+- Session handling
+- Protected dashboard routes
+- Organisation creation and invitation-ready membership architecture
+
+Use Supabase Auth. Protect private pages and enforce permissions on the backend and database, not only through frontend route guards.
+
+Provide clear validation messages and password visibility controls.
+
+## C. First-Time Onboarding
+
+Create a guided onboarding flow:
+
+1. Create or join an organisation.
+2. Enter the organisation and brand name.
+3. Select the industry and primary content channels.
+4. Define the brand voice with simple options such as Professional, Friendly, Bold, Technical or Custom.
+5. Add preferred terminology, prohibited phrases, mandatory terms and disclaimers.
+6. Add approved messaging, factual references and available brand assets.
+7. Review the configuration and enter the dashboard.
+
+Allow users to skip optional information and return later to complete their brand profile.
+
+Clearly distinguish verified organisational facts from user-provided statements that have not been verified.
+
+## D. Main Dashboard
+
+Build a working dashboard with:
+
+- Welcome message
+- Review Content CTA
+- Recent content reviews
+- Documents awaiting approval
+- Issues grouped by severity
+- Recent reviewer activity
+- Brand consistency trends
+- Repeated violations
+- Content review status distribution
+- Quick access to brand guidelines
+- A useful empty state for new organisations
+
+Calculate dashboard information from actual stored records. Do not display fabricated statistics.
+
+If demo data is offered, mark it clearly as sample data and keep it separate from real organisational records.
+
+## E. Content Review Workspace
+
+This is the central product feature.
+
+Provide a clean, focused editor with:
+
+- Content title
+- Content type selector
+- Content channel selector
+- Rich-text or practical text editor
+- Paste-content input
+- File upload for supported formats
+- Selectable brand profile when permitted
+- Analyse Content button
+- Save Draft button
+
+Support plain text and implement appropriate file parsing for formats such as TXT, PDF and DOCX. Display clear file size, format and processing limits.
+
+Reject unsupported or potentially unsafe files with useful explanations. Do not execute uploaded files.
+
+Show review progress in understandable stages:
+
+1. Validating submitted content
+2. Checking deterministic rules
+3. Analysing semantic and brand consistency
+4. Preparing explanations and suggestions
+5. Generating the final review report
+
+Do not display fake progress or pretend a request is still running after it has failed.
+
+## F. Review Results
+
+After a real analysis, display:
+
+- Overall review status
+- A summary of the main findings
+- Total issue count
+- Issues grouped by severity
+- Original content with relevant sections highlighted
+- Issue category
+- Exact evidence or text excerpt
+- Explanation of why the content was flagged
+- The rule or guideline involved
+- Recommended correction
+- Confidence or uncertainty information where meaningful
+- Reviewer actions
+
+Use distinct labels for:
+- Critical
+- High
+- Medium
+- Low
+- Informational
+
+Severity must follow documented rules rather than arbitrary AI decisions.
+
+Each issue should offer relevant actions, including:
+
+- View explanation
+- Accept suggestion
+- Apply correction
+- Dismiss finding with a reason
+- Flag for human review
+
+Allow users to review suggested changes individually.
+
+Provide an edited-content preview with a before-and-after comparison. Include undo or restore functionality where appropriate.
+
+Never silently overwrite the original content. Store revision history.
+
+## G. Brand Guidelines
+
+Create a dedicated area where authorised users can manage:
+
+- Brand voice and tone
+- Approved words and phrases
+- Prohibited terminology
+- Preferred terminology
+- Required messages
+- Approved disclaimers
+- Verified factual references
+- Campaign-specific instructions
+- Logo and asset references
+- Basic visual identity information
+- Accessibility requirements
+
+Allow authorised users to create, update, deactivate and organise rules.
+
+Provide rule descriptions, severity, examples, applicability and last-updated information.
+
+Every analysis must reference the applicable version of the guidelines so users can understand which rules were used.
+
+## H. Review and Approval Workflow
+
+Implement a real, database-backed workflow.
+
+Suggested statuses:
+
+Draft → In Review → Changes Requested → Resubmitted → Approved
+
+Include an optional Rejected status where appropriate.
+
+Users must be able to:
+
+- Submit content for review
+- Assign or request review by an authorised reviewer
+- Leave comments
+- Request specific changes
+- Respond to comments
+- Resubmit revised content
+- Approve eligible submissions
+- View status and revision history
+
+Apply role-based permissions for Creator, Manager, Reviewer and Administrator.
+
+A user must not approve content unless their membership role and permissions allow it.
+
+An Approved status means a human reviewer approved the content within Inkloom AI. Do not falsely claim that the platform automatically published content to external social networks.
+
+## I. Team and Organisation Management
+
+Provide:
+
+- Organisation profile
+- Member list
+- Role assignments
+- Invitation flow or a clearly documented invitation setup
+- Membership management
+- Reviewer assignment
+- Organisation-specific activity logs
+
+Ensure that organisation members cannot access another organisation's private content, rules, users or reports.
+
+## J. Analytics and Insights
+
+Create an analytics page based on genuine review records.
+
+Include:
+
+- Number of reviews over time
+- Issue categories
+- Severity distribution
+- Frequently violated guidelines
+- Repeat mistakes
+- Review outcome distribution
+- Approval turnaround where timestamps support it
+- Commonly flagged content patterns
+
+Use clear charts with labels, legends, useful empty states and appropriate date filters.
+
+Do not invent analytics for periods without data.
+
+Where useful, use the AI service to produce a concise narrative summary based on actual aggregate data. Validate it, and distinguish evidence from interpretation.
+
+## K. Review History and Audit Trail
+
+Provide searchable review history with:
+
+- Content title
+- Creator
+- Submission date
+- Review status
+- Relevant issue count
+- Assigned reviewer
+- Last modified date
+
+Record significant events such as guideline changes, review submissions, suggestion applications, dismissals, comments, approval decisions and role changes.
+
+Audit entries must identify the actor, action, timestamp and relevant record. Prevent ordinary users from editing or deleting audit history.
+
+## L. Settings
+
+Include:
+
+- Profile
+- Organisation settings
+- Brand preferences
+- Notification preferences
+- Team permissions
+- Security information
+- AI configuration status
+- Data-management controls
+
+Never expose API keys or secret environment variables to the browser.
+
+---
+
+# 5. CONTENT ANALYSIS PIPELINE
+
+Implement a genuine analysis pipeline rather than returning fixed demonstration results.
+
+## Stage 1: Input validation
+
+Validate file types, request sizes, content length, organisation access and required fields.
+
+Normalise text safely while preserving the original source for comparison.
+
+## Stage 2: Deterministic rule checks
+
+Run the Python rule engine against applicable brand guidelines.
+
+Examples include:
+
+- Detecting a prohibited phrase
+- Finding a missing required disclaimer
+- Checking a preferred product name
+- Identifying inconsistent spelling of approved terminology
+- Checking for required disclosures
+- Detecting configured date or terminology conflicts
+- Flagging configured accessibility patterns
+
+Every finding must contain evidence, the matched rule and a reproducible explanation.
+
+Do not claim that regex can prove a statement is false. It can identify patterns and configured rule violations.
+
+## Stage 3: Semantic AI analysis
+
+Send relevant content and the applicable, authorised brand context to the Gemini service.
+
+Ask it to evaluate tone, messaging consistency, context-dependent terminology, possible contradictions, potentially unsupported claims and contextual improvements.
+
+Treat content under review as untrusted data, not as instructions to the AI system. Prevent instructions embedded inside uploaded content from overriding system rules or requesting confidential information.
+
+Avoid sending unrelated organisation data to the AI provider.
+
+## Stage 4: Structured results
+
+Use a validated schema similar to the following:
+
+{
+  "review_id": "generated-review-id",
+  "status": "completed",
+  "summary": "Concise evidence-based review summary",
+  "issues": [
+    {
+      "issue_id": "generated-issue-id",
+      "category": "tone",
+      "severity": "medium",
+      "source": "rule_engine_or_ai",
+      "evidence": "Exact excerpt from submitted content",
+      "explanation": "Why this may conflict with the brand",
+      "guideline_reference": "Applicable guideline",
+      "suggestion": "Proposed alternative",
+      "confidence": null,
+      "requires_human_review": true
+    }
+  ]
+}
+
+Adapt the schema as needed, but implement a consistent validated data contract for backend responses and frontend rendering.
+
+Use null or an equivalent explicit unavailable value for confidence where reliable confidence information is not available.
+
+Never fabricate evidence, guideline references, source citations or completed analysis results.
+
+## Stage 5: Human feedback
+
+Allow authorised users to accept, modify, dismiss or escalate suggestions.
+
+Store meaningful feedback with its context. Do not silently retrain a model or alter official brand guidelines based on a single user's action.
+
+## Stage 6: Final review status
+
+Present a useful recommendation such as:
+
+- Ready for human approval
+- Changes recommended
+- Review required
+
+A passing automated scan must not be represented as a guarantee of factual correctness, legal compliance or perfect brand consistency.
+
+Keep automated findings separate from the final human approval decision.
+
+---
+
+# 6. DATABASE SCHEMA
+
+Design a normalised PostgreSQL schema, adapting names as necessary.
+
+At minimum, include tables equivalent to:
+
+1. profiles
+2. organisations
+3. organisation_members
+4. brand_profiles
+5. brand_guidelines
+6. approved_facts_or_references
+7. brand_assets
+8. content_documents
+9. content_revisions
+10. reviews
+11. review_issues
+12. review_suggestions
+13. approval_records
+14. review_comments
+15. notifications
+16. audit_logs
+
+Include appropriate:
+
+- UUID primary keys
+- Foreign keys
+- Organisation identifiers
+- Created and updated timestamps
+- Content and review status constraints
+- Useful indexes
+- Uniqueness constraints
+- Referential integrity
+- Migration files
+- Row Level Security policies
+
+Use JSONB only where flexible structured data is genuinely useful. Keep core entities relational.
+
+Implement tenant isolation so users only access records belonging to organisations where they have authorised membership.
+
+Validate permissions for every protected API operation. Use database RLS as an additional protection layer, not a substitute for backend authorisation.
+
+Where necessary, use server-side Supabase credentials securely and never expose the service-role key to the client.
+
+---
+
+# 7. BACKEND API REQUIREMENTS
+
+Use versioned API routes under `/api/v1`.
+
+Provide endpoints covering:
+
+- Authentication/session verification as required by the chosen integration
+- Organisation and membership management
+- Brand guideline management
+- File upload and content submission
+- Content creation and editing
+- Deterministic analysis
+- AI semantic analysis
+- Review result retrieval
+- Suggestion acceptance and dismissal
+- Revision management
+- Comments and approvals
+- Analytics
+- Review history
+- Audit logs
+- Health checks
+
+Example endpoint structure:
+
+POST `/api/v1/reviews`
+
+GET `/api/v1/reviews/{review_id}`
+
+GET `/api/v1/reviews/{review_id}/issues`
+
+POST `/api/v1/reviews/{review_id}/analyse`
+
+POST `/api/v1/reviews/{review_id}/suggestions/{suggestion_id}/apply`
+
+POST `/api/v1/reviews/{review_id}/submit`
+
+POST `/api/v1/reviews/{review_id}/approve`
+
+GET `/api/v1/analytics/overview`
+
+GET `/health`
+
+Choose consistent HTTP status codes, validate input and return structured errors.
+
+Prevent duplicate submissions where appropriate and handle concurrent review updates safely.
+
+Document the API using FastAPI's OpenAPI/Swagger support.
+
+---
+
+# 8. SECURITY AND PRIVACY
+
+Build security into the application from the beginning.
+
+Requirements:
+
+- Never hardcode secrets.
+- Keep Gemini and privileged Supabase credentials server-side.
+- Validate organisation membership and permissions for every protected operation.
+- Use appropriate RLS policies.
+- Validate uploads by extension, content type and size.
+- Store uploads in an appropriately secured storage location.
+- Use private storage for confidential content.
+- Avoid exposing private content in public URLs or logs.
+- Apply input validation and output encoding.
+- Configure CORS for authorised origins.
+- Apply rate limits to sensitive and expensive endpoints.
+- Protect against insecure direct object references.
+- Restrict destructive actions to authorised roles.
+- Avoid logging API keys, passwords, access tokens or unnecessarily sensitive content.
+- Provide a clear policy for AI processing and user-uploaded information.
+- Avoid retaining more personal or confidential data than required.
+
+Do not claim full security certification, regulatory compliance or absolute confidentiality without independently verified evidence.
+
+---
+
+# 9. FRONTEND ENGINEERING REQUIREMENTS
+
+Use a maintainable project architecture with:
+
+- App Router pages and layouts
+- Reusable UI components
+- Typed API service functions
+- Shared TypeScript interfaces
+- Server-side handling for secrets and protected operations
+- Appropriate client components for interactive functionality
+- Form validation
+- Accessible dialogs, menus and form controls
+- Loading, success, empty and failure states
+- Responsive tables and charts
+- Consistent typography, spacing and design tokens
+
+The primary navigation should be easy to understand:
+
+Dashboard  
+Review Content  
+Review History  
+Brand Guidelines  
+Approvals  
+Analytics  
+Team  
+Settings
+
+Use a collapsible sidebar on smaller screens and a clear active navigation state.
+
+Avoid redundant controls, confusing icons, fake buttons and unnecessary pop-ups.
+
+Every visible primary action must perform a meaningful operation.
+
+---
+
+# 10. REQUIRED PROJECT STRUCTURE
+
+Organise the application clearly. A monorepo is acceptable.
+
+Example:
+
+inkloom-ai/
+  frontend/
+    app/
+    components/
+    lib/
+    types/
+    public/
+    package.json
+    .env.example
+  backend/
+    app/
+      api/
+      core/
+      models/
+      schemas/
+      services/
+        rule_engine/
+        ai/
+        reviews/
+      tests/
+      main.py
+    requirements.txt
+    .env.example
+  supabase/
+    migrations/
+    seed.sql
+  docs/
+    architecture.md
+    deployment.md
+    security.md
+    api.md
+  README.md
+
+Adjust the structure when justified, but maintain a clean separation between frontend, backend, database migrations and documentation.
+
+Include dependency manifests, lockfiles where supported, migration scripts, environment examples and deployment configuration.
+
+Do not commit actual secret values, virtual environments, build artefacts or private uploaded content.
+
+---
+
+# 11. ENVIRONMENT VARIABLES
+
+Provide accurate `.env.example` files.
+
+Include only the variables required by the implemented integrations, such as:
+
+Frontend:
+- NEXT_PUBLIC_SUPABASE_URL
+- NEXT_PUBLIC_SUPABASE_ANON_KEY
+- NEXT_PUBLIC_API_BASE_URL
+
+Backend:
+- SUPABASE_URL
+- SUPABASE_SERVICE_ROLE_KEY, only if required for a specific protected server-side operation
+- SUPABASE_JWT_SECRET or the correct JWT verification configuration for the selected Supabase setup
+- GEMINI_API_KEY
+- GEMINI_MODEL
+- FRONTEND_ORIGIN
+- ENVIRONMENT
+
+Use the appropriate current Supabase authentication and JWT verification approach rather than assuming that every deployment uses the same token configuration.
+
+Never place `GEMINI_API_KEY`, service-role credentials or other privileged secrets in `NEXT_PUBLIC_*` variables.
+
+Check startup configuration and provide understandable errors for missing required values.
+
+---
+
+# 12. DEMO MODE AND SAMPLE DATA
+
+Make the product easy to demonstrate to hackathon judges.
+
+Provide an optional demo mode using clearly labelled sample content and brand guidelines.
+
+Include examples such as:
+
+- An outdated product claim
+- An inconsistent brand term
+- A missing configured disclaimer
+- A tone mismatch
+- A potentially unsupported promotional claim
+- An otherwise compliant piece of content
+
+Show how the system finds evidence, explains issues and recommends improvements.
+
+Separate demo data from real user workspaces. Do not seed sample data into a real organisation without explicit consent.
+
+Demonstration results must clearly be sample results. When a live API is used, display its actual response and any analysis errors.
+
+Do not create fake live users, fabricated activity counts or pretend integrations.
+
+---
+
+# 13. TESTING AND QUALITY ASSURANCE
+
+Provide meaningful automated tests.
+
+## Backend tests
+
+Test:
+
+- API request validation
+- Rule-engine matching
+- Required disclaimer detection
+- Terminology rules
+- Severity handling
+- Structured AI-response validation
+- AI failure and timeout handling
+- Authorisation checks
+- Tenant isolation
+- Workflow transitions
+- Suggestion application
+- Error handling
+
+## Frontend tests
+
+Test the main user journeys:
+
+- Authentication screens
+- Onboarding
+- Creating a review
+- Displaying issue findings
+- Applying a suggestion
+- Submitting content for review
+- Approving content with the correct role
+- Empty and error states
+
+## End-to-end checks
+
+Verify the core journey:
+
+Sign in → Configure Brand Guidelines → Submit Content → Analyse → Inspect Findings → Apply Corrections → Submit for Approval → Approve → View History and Analytics.
+
+Ensure that each step works through the actual application and persists appropriate records.
+
+Run linting, type checks, database migration validation and automated tests where supported by the environment.
+
+Do not claim that tests passed unless they were actually executed successfully.
+
+---
+
+# 14. PERFORMANCE AND RELIABILITY
+
+Optimise for practical performance without making unverified promises.
+
+- Keep deterministic checks independent of AI availability.
+- Avoid unnecessary sequential API calls.
+- Use asynchronous backend processing where appropriate.
+- Add timeouts and graceful error handling for external AI requests.
+- Prevent duplicate analyses where appropriate.
+- Handle slow network connections.
+- Paginate longer content and review lists.
+- Avoid sending unnecessary organisation data to AI.
+- Keep frontend bundles and database queries efficient.
+- Show users when an analysis fails or is incomplete.
+
+Treat all latency targets as measurable engineering goals, not guaranteed results. Do not display claims such as “under 20 ms” or “100% accurate” unless supported by actual measurements and clearly defined tests.
+
+---
+
+# 15. DEPLOYMENT AND PUBLISHING READINESS
+
+Prepare the application for deployment to suitable hosting services.
+
+Include:
+
+- Production build scripts
+- Frontend deployment configuration compatible with Next.js
+- Backend deployment configuration compatible with FastAPI
+- Supabase database migrations
+- Database setup instructions
+- Environment-variable configuration
+- CORS and authorised-origin configuration
+- API health checks
+- Secure production settings
+- Error logging without secrets
+- A complete README
+- A step-by-step deployment guide
+- A troubleshooting section
+
+Keep the frontend, API and database independently configurable.
+
+Document a practical deployment path using a compatible Next.js host, a Python/FastAPI host and Supabase. Do not assume every provider's free plan supports every required feature.
+
+The public landing page may be available without authentication, while all private workspace data must remain protected.
+
+Before considering the project deployment-ready, verify the production build, backend startup, API connectivity, authentication, database permissions, migrations and required environment variables.
+
+If deployment credentials are unavailable, prepare the complete application and clearly explain the exact manual deployment steps. Never falsely claim that the website is live.
+
+---
+
+# 16. IMPLEMENTATION ORDER
+
+Build the application in the following order:
+
+Phase 1: Project setup, architecture, design system, landing page and authentication.
+
+Phase 2: Supabase schema, migrations, RLS, organisation memberships and brand guidelines.
+
+Phase 3: FastAPI backend, deterministic rule engine, content submission and file processing.
+
+Phase 4: Gemini integration, structured review output and correction suggestions.
+
+Phase 5: Dashboard, results interface, content revisions and review workflow.
+
+Phase 6: Approvals, team management, analytics, notifications and audit history.
+
+Phase 7: Testing, responsive refinement, security checks, documentation and deployment preparation.
+
+Keep the entire application integrated throughout development. Do not create separate disconnected pages that only resemble a completed system.
+
+---
+
+# 17. ACCEPTANCE CRITERIA
+
+The implementation is complete only when:
+
+1. The public landing page is polished and responsive.
+2. Authentication works with Supabase.
+3. Users can create or join an organisation according to implemented permissions.
+4. Brand guidelines can be stored and managed.
+5. Users can submit content for review.
+6. The Python rule engine performs real deterministic checks.
+7. The Gemini service performs semantic analysis when properly configured.
+8. AI output is validated before being displayed.
+9. Review results show evidence, explanations and suggested corrections.
+10. Users can apply suggestions without losing the original content.
+11. Approval decisions follow role-based permissions.
+12. Reviews, changes and relevant actions persist in the database.
+13. Analytics reflect actual stored records.
+14. RLS and backend authorisation protect organisation data.
+15. Missing API credentials produce understandable errors, not fabricated results.
+16. The core application can be run locally using the README.
+17. Production deployment steps, environment variables and database migrations are documented.
+18. No visible primary button is merely decorative.
+19. No fake security claims, performance claims or AI results are presented as facts.
+20. The completed application provides a demonstrable end-to-end workflow.
+
+---
+
+# FINAL INSTRUCTIONS
+
+Prioritise functional completeness, reliability, security, clear user experience and professional visual quality.
+
+Do not stop after creating the landing page. Do not replace the backend with hardcoded JSON. Do not simulate successful database saves or AI analysis. Do not leave essential buttons inactive.
+
+When external credentials are unavailable, build the real integration code, provide a safe configuration path and show a clear setup-required state.
+
+If a feature depends on an external service that is unavailable, explain the limitation and implement the best honest fallback without claiming that the missing integration works.
+
+Make sensible product decisions without repeatedly requesting clarification. Avoid unnecessary complexity that would make a student hackathon project difficult to deploy or demonstrate.
+
+**Final deliverable:** A complete, professional Inkloom AI full-stack application with a modern frontend, Python FastAPI backend, deterministic rule engine, Gemini semantic analysis, Supabase PostgreSQL database and RLS security, working content-review and approval workflows, clear setup instructions, automated tests and a deployment-ready codebase.
+
+The finished product should be easy for a first-time user to understand, credible to technical judges, and practical for an organisation to evaluate before publication of its content.
