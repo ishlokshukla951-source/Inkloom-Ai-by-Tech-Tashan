@@ -34,7 +34,7 @@ export const TEAM_MEMBERS: UserProfile[] = [
     email: 'elena.rostova@acmecloud.io',
     role: 'administrator',
     title: 'VP of Brand Governance & Legal Compliance',
-    avatarUrl: '/src/assets/images/avatar_compliance_officer_1792686989230.jpg',
+    avatarUrl: '/images/avatar-compliance-officer.jpg',
   },
   {
     id: 'usr-marcus',

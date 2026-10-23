@@ -23,7 +23,16 @@ import { MessageSquare } from 'lucide-react';
 
 export default function App() {
   const store = useInkloomStore();
-  const [currentView, setCurrentView] = useState<string>('dashboard');
+  const [currentView, setCurrentView] = useState<string>(() => {
+    if (typeof window !== 'undefined') {
+      const params = new URLSearchParams(window.location.search);
+      const urlView = params.get('view');
+      if (urlView) return urlView;
+      const hash = window.location.hash.replace('#', '');
+      if (hash) return hash;
+    }
+    return 'landing';
+  });
   const [selectedDocId, setSelectedDocId] = useState<string>(
     store.documents[0]?.id || 'doc-001'
   );

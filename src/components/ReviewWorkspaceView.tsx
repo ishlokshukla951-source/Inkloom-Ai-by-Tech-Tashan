@@ -21,7 +21,8 @@ interface ReviewWorkspaceViewProps {
   }) => ContentDocument;
   onRunAnalysis: (
     documentId: string,
-    onProgress?: (stage: number, stageName: string) => void
+    onProgress?: (stage: number, stageName: string) => void,
+    overrideDoc?: ContentDocument
   ) => Promise<any>;
   onNavigateToResults: (documentId: string) => void;
 }

@@ -33,6 +33,7 @@ export const Navbar: React.FC<NavbarProps> = ({
 }) => {
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [avatarError, setAvatarError] = useState(false);
 
   const navLinks = [
     { id: 'dashboard', label: 'Dashboard' },
@@ -110,12 +111,13 @@ export const Navbar: React.FC<NavbarProps> = ({
                 className="flex items-center gap-1.5 sm:gap-2 px-2 sm:px-2.5 py-1.5 text-xs text-slate-700 bg-slate-100/80 hover:bg-slate-200/80 rounded-md border border-slate-200 transition-colors whitespace-nowrap"
                 title="Switch active user role"
               >
-                {currentUser.avatarUrl ? (
+                {currentUser.avatarUrl && !avatarError ? (
                   <img
                     src={currentUser.avatarUrl}
                     alt={currentUser.name}
                     className="w-5 h-5 rounded-full object-cover shrink-0"
                     referrerPolicy="no-referrer"
+                    onError={() => setAvatarError(true)}
                   />
                 ) : (
                   <div className="w-5 h-5 rounded-full bg-slate-300 flex items-center justify-center text-[10px] font-bold text-slate-700 shrink-0">

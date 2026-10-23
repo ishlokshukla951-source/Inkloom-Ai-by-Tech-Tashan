@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   ShieldCheck,
   FileCheck2,
@@ -12,6 +12,68 @@ import {
   ChevronRight,
 } from 'lucide-react';
 
+// Resilient fallback SVG data URI if remote network fails completely
+const INKLOOM_HERO_SVG = `data:image/svg+xml;utf8,${encodeURIComponent(`
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675" width="1200" height="675">
+  <defs>
+    <linearGradient id="g1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e1b4b" />
+      <stop offset="60%" stop-color="#312e81" />
+      <stop offset="100%" stop-color="#4338ca" />
+    </linearGradient>
+    <radialGradient id="glow" cx="50%" cy="30%" r="60%">
+      <stop offset="0%" stop-color="#818cf8" stop-opacity="0.35" />
+      <stop offset="100%" stop-color="#312e81" stop-opacity="0" />
+    </radialGradient>
+  </defs>
+  <rect width="100%" height="100%" fill="url(#g1)"/>
+  <rect width="100%" height="100%" fill="url(#glow)"/>
+  <rect x="80" y="60" width="1040" height="555" rx="16" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.18)" stroke-width="2"/>
+  <rect x="80" y="60" width="1040" height="52" rx="16" fill="rgba(15,23,42,0.4)"/>
+  <circle cx="120" cy="86" r="6" fill="#ef4444" />
+  <circle cx="140" cy="86" r="6" fill="#f59e0b" />
+  <circle cx="160" cy="86" r="6" fill="#10b981" />
+  <text x="600" y="92" fill="#e0e7ff" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="600" text-anchor="middle" letter-spacing="1.5">INKLOOM AI · BRAND GOVERNANCE STRATEGY WORKSHOP</text>
+  <g transform="translate(130, 160)">
+    <rect x="0" y="0" width="280" height="380" rx="12" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.15)"/>
+    <text x="30" y="45" fill="#818cf8" font-family="system-ui" font-size="12" font-weight="700" letter-spacing="1">STEP 01</text>
+    <text x="30" y="75" fill="#ffffff" font-family="system-ui" font-size="18" font-weight="700">Rule Registry</text>
+    <rect x="30" y="110" width="220" height="10" rx="5" fill="rgba(255,255,255,0.3)"/>
+    <rect x="30" y="130" width="180" height="10" rx="5" fill="rgba(255,255,255,0.2)"/>
+    <rect x="30" y="150" width="200" height="10" rx="5" fill="rgba(255,255,255,0.2)"/>
+    <rect x="30" y="290" width="220" height="50" rx="8" fill="#4f46e5"/>
+    <text x="140" y="322" fill="#ffffff" font-family="system-ui" font-size="14" font-weight="600" text-anchor="middle">7 Active Guidelines</text>
+  </g>
+  <g transform="translate(460, 160)">
+    <rect x="0" y="0" width="280" height="380" rx="12" fill="rgba(255,255,255,0.14)" stroke="#6366f1" stroke-width="2"/>
+    <text x="30" y="45" fill="#34d399" font-family="system-ui" font-size="12" font-weight="700" letter-spacing="1">STEP 02 · ACTIVE</text>
+    <text x="30" y="75" fill="#ffffff" font-family="system-ui" font-size="18" font-weight="700">Dual-Engine Audit</text>
+    <circle cx="140" cy="180" r="50" fill="rgba(16,185,129,0.2)"/>
+    <path d="M 124 180 L 136 192 L 160 168" stroke="#34d399" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="140" y="260" fill="#a7f3d0" font-family="system-ui" font-size="16" font-weight="700" text-anchor="middle">99.2% Target Score</text>
+    <rect x="30" y="290" width="220" height="50" rx="8" fill="#059669"/>
+    <text x="140" y="322" fill="#ffffff" font-family="system-ui" font-size="14" font-weight="600" text-anchor="middle">Deterministic + AI</text>
+  </g>
+  <g transform="translate(790, 160)">
+    <rect x="0" y="0" width="280" height="380" rx="12" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.15)"/>
+    <text x="30" y="45" fill="#c084fc" font-family="system-ui" font-size="12" font-weight="700" letter-spacing="1">STEP 03</text>
+    <text x="30" y="75" fill="#ffffff" font-family="system-ui" font-size="18" font-weight="700">Executive Sign-Off</text>
+    <rect x="30" y="110" width="220" height="10" rx="5" fill="rgba(255,255,255,0.3)"/>
+    <rect x="30" y="130" width="160" height="10" rx="5" fill="rgba(255,255,255,0.2)"/>
+    <rect x="30" y="150" width="190" height="10" rx="5" fill="rgba(255,255,255,0.2)"/>
+    <rect x="30" y="290" width="220" height="50" rx="8" fill="#7c3aed"/>
+    <text x="140" y="322" fill="#ffffff" font-family="system-ui" font-size="14" font-weight="600" text-anchor="middle">Cryptographic Audit</text>
+  </g>
+</svg>
+`)}`;
+
+const HERO_IMAGE_CANDIDATES = [
+  '/images/brand-governance-workshop.jpg',
+  '/images/hero_brand_governance_studio_1792686990064.jpg',
+  'https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1200&q=80',
+  INKLOOM_HERO_SVG,
+];
+
 interface LandingPageProps {
   onEnterApp: () => void;
   onOpenDemoReview: () => void;
@@ -23,6 +85,13 @@ export const LandingPage: React.FC<LandingPageProps> = ({
   onOpenDemoReview,
   onStartOnboarding,
 }) => {
+  const [candidateIndex, setCandidateIndex] = useState(0);
+
+  const handleHeroImageError = () => {
+    if (candidateIndex < HERO_IMAGE_CANDIDATES.length - 1) {
+      setCandidateIndex((prev) => prev + 1);
+    }
+  };
   const workflowSteps = [
     {
       num: '01',
@@ -166,10 +235,13 @@ export const LandingPage: React.FC<LandingPageProps> = ({
               <div className="relative rounded-xl border border-slate-200 bg-slate-100/70 p-3 shadow-md">
                 <div className="rounded-lg overflow-hidden border border-slate-200 bg-white shadow-inner">
                   <img
-                    src="/src/assets/images/hero_brand_governance_studio_1792686990064.jpg"
+                    src={HERO_IMAGE_CANDIDATES[candidateIndex]}
                     alt="Brand Governance Strategy Workshop"
                     className="w-full h-72 sm:h-80 object-cover"
+                    loading="eager"
+                    decoding="async"
                     referrerPolicy="no-referrer"
+                    onError={handleHeroImageError}
                   />
                   <div className="p-4 bg-white border-t border-slate-100 space-y-2">
                     <div className="flex items-center justify-between text-xs text-slate-500">

@@ -302,6 +302,9 @@ app.post('/api/v1/images/generate', async (req: Request, res: Response) => {
 });
 
 async function startServer() {
+  // Public static asset serving in both development and production
+  app.use('/images', express.static(path.resolve(__dirname, 'public/images')));
+
   if (!isProduction) {
     const { createServer: createViteServer } = await import('vite');
     const vite = await createViteServer({
@@ -310,6 +313,8 @@ async function startServer() {
     });
     app.use(vite.middlewares);
   } else {
+    // Backward-compatible fallback for legacy /src/assets/images paths in production
+    app.use('/src/assets/images', express.static(path.resolve(__dirname, 'public/images')));
     app.use(express.static(path.resolve(__dirname, 'dist')));
     app.get('*', (req: Request, res: Response) => {
       res.sendFile(path.resolve(__dirname, 'dist', 'index.html'));
