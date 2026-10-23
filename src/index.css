@@ -5,9 +5,72 @@
   --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 }
 
+/* ==========================================================================
+   FLUID RESPONSIVE & HORIZONTAL OVERFLOW PREVENTION ENGINE
+   ========================================================================== */
+
+/* 1. Global Viewport Clamping (Uses clip to preserve position: sticky) */
+html,
+body {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: clip;
+  margin: 0;
+  padding: 0;
+  -webkit-text-size-adjust: 100%;
+}
+
+/* 2. Universal Box-Sizing */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* 3. Replaced Elements & Media Containment */
+img,
+video,
+iframe,
+svg {
+  max-width: 100%;
+}
+
+/* 4. Text & Code Word Break / Wrap Discipline */
+p,
+span,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+li,
+td,
+th,
+a {
+  overflow-wrap: break-word;
+}
+
+pre,
+code {
+  max-width: 100%;
+  overflow-x: auto;
+  word-break: break-word;
+}
+
+/* 5. Fluid Grid & Flex Containers (applied to main app content) */
+main .grid > * {
+  min-width: 0;
+}
+
+/* 6. Fluid Table & Overflow Containers */
+.overflow-x-auto {
+  max-width: 100%;
+  -webkit-overflow-scrolling: touch;
+}
+
 @layer base {
   body {
     font-family: var(--font-sans);
   }
 }
-
